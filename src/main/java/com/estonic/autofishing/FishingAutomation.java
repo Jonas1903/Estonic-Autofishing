@@ -75,15 +75,7 @@ public class FishingAutomation {
      * Checks if leather boots are in the hotbar
      */
     private static boolean hasLeatherBootsInHotbar(MinecraftClient client) {
-        if (client.player == null) return false;
-        
-        for (int i = 0; i < 9; i++) {
-            ItemStack stack = client.player.getInventory().getStack(i);
-            if (stack.getItem() == Items.LEATHER_BOOTS) {
-                return true;
-            }
-        }
-        return false;
+        return findLeatherBootsSlot(client) != -1;
     }
 
     /**
@@ -134,14 +126,8 @@ public class FishingAutomation {
         // Add delay before switching back
         Thread.sleep(100 + random.nextInt(100)); // 100-200ms delay
 
-        // Switch back to fishing rod
-        if (rodWasInMainHand) {
-            // Rod was in main hand, switch back to previous slot
-            client.player.getInventory().selectedSlot = previousSlot;
-        } else {
-            // Rod is in off-hand, just switch back to previous slot
-            client.player.getInventory().selectedSlot = previousSlot;
-        }
+        // Switch back to previous slot (works for both main hand and off-hand rod)
+        client.player.getInventory().selectedSlot = previousSlot;
 
         // Small delay after switching back
         Thread.sleep(50 + random.nextInt(50)); // 50-100ms delay

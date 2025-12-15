@@ -51,17 +51,21 @@ This guide will help you get the Estonic Autofishing mod running in just a few m
 2. **Start fishing**
    - Find a body of water
    - Equip a fishing rod (main hand or off-hand)
+   - **Optional**: Place leather boots in your hotbar for automatic use
    - Cast the rod (right-click)
 
 3. **Let the mod work**
    - When you get a bite, the text "Reel it in!" will appear
    - The mod will automatically:
      - Pull in the fishing rod
+     - Use leather boots if they're in your hotbar
+     - Switch back to the fishing rod
      - Slightly adjust your crosshair (to look natural)
      - Cast the rod again
 
 4. **Enjoy automated fishing!**
    - Just stand near water with your fishing rod
+   - Add leather boots to your hotbar for enhanced automation
    - The mod handles the rest
 
 ## For Developers (Building the Mod)
@@ -130,16 +134,21 @@ For detailed development setup, see [SETUP.md](SETUP.md).
    - Ensure you won't be attacked by mobs
    - Consider using in a protected area
 
-2. **Performance**
+2. **Leather Boots**
+   - Place leather boots in any hotbar slot for automatic use
+   - The mod will switch to boots, use them, and return to fishing
+   - Useful for frost walker or other boot enchantments
+
+3. **Performance**
    - The mod is lightweight and shouldn't affect FPS
    - If you experience lag, try closing other programs
 
-3. **Compatibility**
+4. **Compatibility**
    - Works with most Fabric mods
    - May conflict with other fishing mods
    - Tested with vanilla fishing mechanics
 
-4. **Server Use**
+5. **Server Use**
    - Always check server rules first
    - Some servers ban automation mods
    - Use responsibly

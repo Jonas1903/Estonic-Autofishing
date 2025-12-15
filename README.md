@@ -6,6 +6,7 @@ A Fabric mod for Minecraft Java 1.21 that automatically detects fishing cues and
 
 - **Automatic Detection**: Detects the green exclamation mark and "Reel it in!" text
 - **Smart Automation**: Automatically pulls in and recasts the fishing rod
+- **Leather Boots Support**: Automatically uses leather boots in hotbar when catching fish, then returns to fishing
 - **Anti-Cheat Protection**: Randomizes crosshair movement to mimic human actions
 - **Lightweight**: Minimal performance impact using efficient rendering hooks
 
@@ -94,6 +95,11 @@ Estonic-Autofishing/
 2. **Automation**: When a cue is detected:
    - Right-clicks to pull in the fishing rod
    - Waits 50-100ms (randomized)
+   - If leather boots are in hotbar:
+     - Switches to leather boots slot
+     - Right-clicks with boots
+     - Waits 100-200ms (randomized)
+     - Switches back to fishing rod
    - Slightly adjusts crosshair position (-1 to +1 degrees)
    - Right-clicks again to recast the rod
 

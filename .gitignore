@@ -48,3 +48,4 @@ release.properties
 *.tar.gz
 *.jar
 !gradle/wrapper/gradle-wrapper.jar
+!dist/*.zip

@@ -1,7 +1,6 @@
 package com.estonic.autofishing.mixin;
 
 import com.estonic.autofishing.FishingDetector;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,6 +16,6 @@ public class ChatHudMixin {
     
     @Inject(method = "addMessage(Lnet/minecraft/text/Text;)V", at = @At("HEAD"))
     private void onAddMessage(Text message, CallbackInfo ci) {
-        FishingDetector.checkForFishingCue(null, message);
+        FishingDetector.checkForFishingCue(message);
     }
 }

@@ -4,7 +4,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.util.hit.HitResult;
 
 import java.util.Random;
 
@@ -15,7 +14,6 @@ public class FishingAutomation {
     private static final Random random = new Random();
     private static long lastActionTime = 0;
     private static final long ACTION_DELAY = 100; // Minimum delay between actions in ms
-    private static int previousSlot = -1; // Track previous slot for returning
 
     public static void performFishingAction(MinecraftClient client) {
         if (client.player == null || client.interactionManager == null) {
@@ -51,7 +49,7 @@ public class FishingAutomation {
 
             // 3. Check for leather boots and use them if found
             if (hasLeatherBootsInHotbar(client)) {
-                useLeatherBoots(client, hasRodInMainHand);
+                useLeatherBoots(client);
             }
 
             // 4. Randomize crosshair slightly
@@ -76,15 +74,7 @@ public class FishingAutomation {
      * Checks if leather boots are in the hotbar
      */
     private static boolean hasLeatherBootsInHotbar(MinecraftClient client) {
-        if (client.player == null) return false;
-        
-        for (int i = 0; i < 9; i++) {
-            ItemStack stack = client.player.getInventory().getStack(i);
-            if (stack.getItem() == Items.LEATHER_BOOTS) {
-                return true;
-            }
-        }
-        return false;
+        return findLeatherBootsSlot(client) != -1;
     }
 
     /**
@@ -105,12 +95,11 @@ public class FishingAutomation {
     /**
      * Uses leather boots and returns to fishing rod
      */
-    private static void useLeatherBoots(MinecraftClient client, boolean rodWasInMainHand) throws InterruptedException {
+    private static void useLeatherBoots(MinecraftClient client) throws InterruptedException {
         if (client.player == null || client.interactionManager == null) return;
 
         // Save current slot
-        int currentSlot = client.player.getInventory().selectedSlot;
-        previousSlot = currentSlot;
+        int previousSlot = client.player.getInventory().selectedSlot;
 
         // Find leather boots slot
         int bootsSlot = findLeatherBootsSlot(client);
@@ -135,14 +124,8 @@ public class FishingAutomation {
         // Add delay before switching back
         Thread.sleep(100 + random.nextInt(100)); // 100-200ms delay
 
-        // Switch back to fishing rod
-        if (rodWasInMainHand) {
-            // Rod was in main hand, switch back to previous slot
-            client.player.getInventory().selectedSlot = previousSlot;
-        } else {
-            // Rod is in off-hand, just switch back to previous slot
-            client.player.getInventory().selectedSlot = previousSlot;
-        }
+        // Switch back to previous hotbar slot
+        client.player.getInventory().selectedSlot = previousSlot;
 
         // Small delay after switching back
         Thread.sleep(50 + random.nextInt(50)); // 50-100ms delay

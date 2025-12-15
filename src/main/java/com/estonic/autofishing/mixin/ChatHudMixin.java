@@ -16,6 +16,6 @@ public class ChatHudMixin {
     
     @Inject(method = "addMessage(Lnet/minecraft/text/Text;)V", at = @At("HEAD"))
     private void onAddMessage(Text message, CallbackInfo ci) {
-        FishingDetector.checkForFishingCue(null, message);
+        FishingDetector.checkForFishingCue(message);
     }
 }

@@ -1,6 +1,5 @@
 package com.estonic.autofishing;
 
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 
 /**
@@ -14,7 +13,7 @@ public class FishingDetector {
     /**
      * Called from rendering mixin to check for fishing cues
      */
-    public static void checkForFishingCue(DrawContext context, Text text) {
+    public static void checkForFishingCue(Text text) {
         if (text == null) return;
         
         String textContent = text.getString();

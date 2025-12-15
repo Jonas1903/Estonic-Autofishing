@@ -17,6 +17,6 @@ public class InGameHudMixin {
     
     @Inject(method = "renderOverlay", at = @At("HEAD"))
     private void onRenderOverlay(DrawContext context, Text text, CallbackInfo ci) {
-        FishingDetector.checkForFishingCue(context, text);
+        FishingDetector.checkForFishingCue(text);
     }
 }

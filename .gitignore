@@ -43,5 +43,8 @@ release.properties
 .*.swp
 .*.swo
 
-# Distribution
+# Distribution files (should be in releases, not in repo)
 *.zip
+*.tar.gz
+*.jar
+!gradle/wrapper/gradle-wrapper.jar

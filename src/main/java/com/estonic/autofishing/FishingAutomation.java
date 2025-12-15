@@ -14,7 +14,6 @@ public class FishingAutomation {
     private static final Random random = new Random();
     private static long lastActionTime = 0;
     private static final long ACTION_DELAY = 100; // Minimum delay between actions in ms
-    private static int previousSlot = -1; // Track previous slot for returning
 
     public static void performFishingAction(MinecraftClient client) {
         if (client.player == null || client.interactionManager == null) {
@@ -100,8 +99,7 @@ public class FishingAutomation {
         if (client.player == null || client.interactionManager == null) return;
 
         // Save current slot
-        int currentSlot = client.player.getInventory().selectedSlot;
-        previousSlot = currentSlot;
+        int previousSlot = client.player.getInventory().selectedSlot;
 
         // Find leather boots slot
         int bootsSlot = findLeatherBootsSlot(client);

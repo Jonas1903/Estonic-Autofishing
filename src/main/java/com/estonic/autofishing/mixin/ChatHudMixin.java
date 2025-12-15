@@ -1,7 +1,6 @@
 package com.estonic.autofishing.mixin;
 
 import com.estonic.autofishing.FishingDetector;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;

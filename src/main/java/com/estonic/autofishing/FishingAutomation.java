@@ -126,7 +126,7 @@ public class FishingAutomation {
         // Add delay before switching back
         Thread.sleep(100 + random.nextInt(100)); // 100-200ms delay
 
-        // Switch back to previous slot (works for both main hand and off-hand rod)
+        // Switch back to previous hotbar slot
         client.player.getInventory().selectedSlot = previousSlot;
 
         // Small delay after switching back

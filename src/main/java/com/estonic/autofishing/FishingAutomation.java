@@ -50,7 +50,7 @@ public class FishingAutomation {
 
             // 3. Check for leather boots and use them if found
             if (hasLeatherBootsInHotbar(client)) {
-                useLeatherBoots(client, hasRodInMainHand);
+                useLeatherBoots(client);
             }
 
             // 4. Randomize crosshair slightly
@@ -96,7 +96,7 @@ public class FishingAutomation {
     /**
      * Uses leather boots and returns to fishing rod
      */
-    private static void useLeatherBoots(MinecraftClient client, boolean rodWasInMainHand) throws InterruptedException {
+    private static void useLeatherBoots(MinecraftClient client) throws InterruptedException {
         if (client.player == null || client.interactionManager == null) return;
 
         // Save current slot

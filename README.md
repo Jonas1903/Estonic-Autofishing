@@ -1,1 +1,138 @@
-# Estonic-Autofishing
+# Estonic Autofishing
+
+A Fabric mod for Minecraft Java 1.21 that automatically detects fishing cues and performs fishing actions with randomized crosshair movement to mimic human behavior.
+
+## Features
+
+- **Automatic Detection**: Detects the green exclamation mark and "Reel it in!" text
+- **Smart Automation**: Automatically pulls in and recasts the fishing rod
+- **Leather Boots Support**: Automatically uses leather boots in hotbar when catching fish, then returns to fishing
+- **Anti-Cheat Protection**: Randomizes crosshair movement to mimic human actions
+- **Lightweight**: Minimal performance impact using efficient rendering hooks
+
+## Requirements
+
+- Minecraft Java Edition 1.21
+- Fabric Loader 0.15.11 or higher
+- Fabric API 0.100.1+1.21 or higher
+- Java 21 or higher
+
+## Installation
+
+### For Players
+
+1. Download the latest `.jar` file from the releases page
+2. Install Fabric Loader for Minecraft 1.21
+3. Place the downloaded `.jar` file in your `.minecraft/mods` folder
+4. Launch Minecraft with the Fabric profile
+
+### For Developers
+
+1. Clone this repository
+2. Open the project in IntelliJ IDEA or your preferred IDE
+3. Run `./gradlew build` to build the mod
+4. The compiled mod will be in `build/libs/`
+
+## Building from Source
+
+```bash
+# Clone the repository
+git clone https://github.com/Jonas1903/Estonic-Autofishing.git
+cd Estonic-Autofishing
+
+# Build the mod
+./gradlew build
+
+# The built mod will be at build/libs/estonic-autofishing-1.0.0.jar
+```
+
+## Development Setup
+
+### Prerequisites
+
+- JDK 21 or higher
+- Gradle 8.8 (included via wrapper)
+
+### Import into IntelliJ IDEA
+
+1. Open IntelliJ IDEA
+2. File → Open → Select the project directory
+3. Wait for Gradle to sync
+4. Run the `runClient` Gradle task to test the mod
+
+### Project Structure
+
+```
+Estonic-Autofishing/
+├── src/
+│   └── main/
+│       ├── java/
+│       │   └── com/estonic/autofishing/
+│       │       ├── AutofishingMod.java      # Main mod initializer
+│       │       ├── FishingDetector.java     # Fishing cue detection
+│       │       ├── FishingAutomation.java   # Automation logic
+│       │       └── mixin/
+│       │           ├── InGameHudMixin.java  # HUD rendering hook
+│       │           └── ChatHudMixin.java    # Chat message hook
+│       └── resources/
+│           ├── fabric.mod.json              # Mod metadata
+│           ├── estonic-autofishing.mixins.json # Mixin configuration
+│           └── assets/
+│               └── estonic-autofishing/
+│                   └── icon.png             # Mod icon
+├── build.gradle                             # Build configuration
+├── gradle.properties                        # Project properties
+├── settings.gradle                          # Gradle settings
+└── LICENSE                                  # MIT License
+```
+
+## How It Works
+
+1. **Detection**: The mod uses Mixin to hook into Minecraft's rendering system, monitoring for:
+   - The text "Reel it in!" appearing on screen
+   - Green exclamation mark particles (visual fishing cue)
+
+2. **Automation**: When a cue is detected:
+   - Right-clicks to pull in the fishing rod
+   - Waits 50-100ms (randomized)
+   - If leather boots are in hotbar:
+     - Switches to leather boots slot
+     - Right-clicks with boots
+     - Waits 100-200ms (randomized)
+     - Switches back to fishing rod
+   - Slightly adjusts crosshair position (-1 to +1 degrees)
+   - Right-clicks again to recast the rod
+
+3. **Anti-Cheat Evasion**: 
+   - Random delays between actions (50-200ms)
+   - Randomized crosshair movement (±1.5 degrees)
+   - Cooldown period to prevent spam
+
+## Configuration
+
+Currently, the mod works out of the box with no configuration needed. Future versions may include:
+- Toggle key binding
+- Adjustable delay ranges
+- Customizable detection sensitivity
+
+## Compatibility
+
+- **Minecraft**: 1.21
+- **Fabric Loader**: 0.15.11+
+- **Java**: 21+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Disclaimer
+
+This mod is for educational purposes. Use at your own risk. Some servers may prohibit automation mods. Always check server rules before using.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Support
+
+For issues, questions, or suggestions, please open an issue on the GitHub repository.

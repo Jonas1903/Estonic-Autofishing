@@ -1,0 +1,51 @@
+# Gradle
+.gradle/
+build/
+out/
+classes/
+
+# Eclipse
+*.launch
+.settings/
+.metadata/
+.classpath
+.project
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Visual Studio Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Fabric
+run/
+logs/
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Misc
+*.log
+*.swp
+*.bak
+*~
+.*.swp
+.*.swo
+
+# Distribution files (should be in releases, not in repo)
+*.zip
+*.tar.gz
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+!dist/*.zip

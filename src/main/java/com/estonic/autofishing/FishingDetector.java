@@ -24,7 +24,7 @@ public class FishingDetector {
             if (currentTime - lastDetectionTime > DETECTION_COOLDOWN) {
                 fishingCueDetected = true;
                 lastDetectionTime = currentTime;
-                AutofishingMod.LOGGER.info("Fishing cue detected: " + textContent);
+                AutofishingMod.LOGGER.info("Fishing cue detected: {}", textContent);
             }
         }
     }

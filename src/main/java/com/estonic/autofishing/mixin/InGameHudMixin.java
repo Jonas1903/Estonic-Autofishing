@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /**
  * Mixin to intercept HUD rendering to detect fishing cues
  * Detects overlay messages like "Reel it in!" that appear on screen
+ * Hooks into both overlay rendering and action bar messages
  */
 @Mixin(InGameHud.class)
 public class InGameHudMixin {

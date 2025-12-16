@@ -18,13 +18,13 @@ public class FishingDetector {
         
         String textContent = text.getString();
         
-        // Check for "Reel it in!" text
-        if (textContent.contains("Reel it in!")) {
+        // Check for "Reel it in!" or "Rell it in!" text (covering both spellings)
+        if (textContent.contains("Reel it in!") || textContent.contains("Rell it in!")) {
             long currentTime = System.currentTimeMillis();
             if (currentTime - lastDetectionTime > DETECTION_COOLDOWN) {
                 fishingCueDetected = true;
                 lastDetectionTime = currentTime;
-                AutofishingMod.LOGGER.info("Fishing cue detected!");
+                AutofishingMod.LOGGER.info("Fishing cue detected: " + textContent);
             }
         }
     }

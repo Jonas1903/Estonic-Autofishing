@@ -65,12 +65,29 @@ cd Estonic-Autofishing
 - JDK 21 or higher
 - Gradle 8.8 (included via wrapper)
 
+### Setting up Java 21
+
+Ensure you have Java 21 installed. You can check your Java version with:
+
+```bash
+java -version
+```
+
+If you need to install Java 21, download it from [Adoptium](https://adoptium.net/) (Eclipse Temurin) or use your system's package manager.
+
+For Gradle to use Java 21, you can either:
+1. Set `JAVA_HOME` environment variable to point to your Java 21 installation
+2. Or let Gradle auto-detect it if Java 21 is your default version
+
 ### Import into IntelliJ IDEA
 
 1. Open IntelliJ IDEA
 2. File → Open → Select the project directory
 3. Wait for Gradle to sync
-4. Run the `runClient` Gradle task to test the mod
+4. Ensure IntelliJ is using Java 21:
+   - File → Project Structure → Project SDK → Select Java 21
+   - File → Settings → Build, Execution, Deployment → Build Tools → Gradle → Gradle JVM → Select Java 21
+5. Run the `runClient` Gradle task to test the mod
 
 ### Project Structure
 
@@ -81,6 +98,8 @@ Estonic-Autofishing/
 │       ├── java/
 │       │   └── com/estonic/autofishing/
 │       │       ├── AutofishingMod.java      # Main mod initializer
+│       │       ├── AutofishCommand.java     # Command registration
+│       │       ├── AutofishState.java       # Toggle state management
 │       │       ├── FishingDetector.java     # Fishing cue detection
 │       │       ├── FishingAutomation.java   # Automation logic
 │       │       └── mixin/

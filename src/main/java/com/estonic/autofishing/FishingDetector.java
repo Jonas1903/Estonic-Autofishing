@@ -16,9 +16,10 @@ public class FishingDetector {
      */
     public static void registerMessageListener() {
         // Listen for overlay/action bar messages
+        // Note: overlay parameter is true when the message is an overlay/action bar message
         ClientReceiveMessageEvents.GAME.register((message, overlay) -> {
             if (!overlay) {
-                return; // Only process overlay/action bar messages
+                return; // Skip non-overlay messages, only process overlay/action bar messages
             }
             
             checkForFishingCue(message);
@@ -29,13 +30,14 @@ public class FishingDetector {
 
     /**
      * Check if the message contains fishing cues
+     * Note: Looking for "Rell it in!" (with two L's) as specified in requirements
      */
     private static void checkForFishingCue(Text text) {
         if (text == null) return;
         
         String textContent = text.getString().toLowerCase(); // Case-insensitive
         
-        // Check for "Rell it in!" text (case-insensitive)
+        // Check for "Rell it in!" text (case-insensitive, specific spelling per requirements)
         if (textContent.contains("rell it in!")) {
             long currentTime = System.currentTimeMillis();
             if (currentTime - lastDetectionTime > DETECTION_COOLDOWN) {

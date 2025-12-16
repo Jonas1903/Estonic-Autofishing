@@ -43,9 +43,7 @@ release.properties
 .*.swp
 .*.swo
 
-# Distribution files (should be in releases, not in repo)
-*.zip
-*.tar.gz
+# Build artifacts (but allow the distribution zip at root)
 *.jar
 !gradle/wrapper/gradle-wrapper.jar
-!dist/*.zip
+!Estonic-Autofishing.zip

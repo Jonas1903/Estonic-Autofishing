@@ -4,12 +4,12 @@ A Fabric mod for Minecraft Java 1.21 that automatically detects fishing cues and
 
 ## Features
 
-- **Toggle Command**: Use `/autofish toggle` to enable or disable the mod (default: OFF)
-- **Automatic Detection**: Detects the green exclamation mark and "Reel it in!" text
+- **Keybind Toggle**: Press F8 to enable or disable the mod (default: OFF)
+- **Automatic Detection**: Detects the green exclamation mark and "Rell it in!" text in the overlay/action bar
 - **Smart Automation**: Automatically pulls in and recasts the fishing rod
 - **Leather Boots Support**: Automatically uses leather boots in hotbar when catching fish, then returns to fishing
 - **Anti-Cheat Protection**: Randomizes crosshair movement to mimic human actions
-- **Lightweight**: Minimal performance impact using efficient rendering hooks
+- **Lightweight**: Minimal performance impact using Fabric API event hooks
 
 ## Requirements
 
@@ -52,11 +52,15 @@ cd Estonic-Autofishing
 1. Install the mod in your `.minecraft/mods` folder
 2. Launch Minecraft with Fabric
 3. Join a world or server
-4. Use `/autofish toggle` to enable autofishing (default is OFF)
+4. Press **F8** to enable autofishing (default is OFF)
 5. Hold a fishing rod and start fishing
-6. The mod will automatically reel in and recast when it detects the "Reel it in!" message
+6. The mod will automatically reel in and recast when it detects the "Rell it in!" message
 
-**Note**: The mod starts disabled by default. You must use `/autofish toggle` to enable it.
+**Note**: The mod starts disabled by default. You must press **F8** to enable it.
+
+## Controls
+
+- **F8** - Toggle autofishing ON/OFF
 
 ## Development Setup
 
@@ -89,41 +93,13 @@ For Gradle to use Java 21, you can either:
    - File → Settings → Build, Execution, Deployment → Build Tools → Gradle → Gradle JVM → Select Java 21
 5. Run the `runClient` Gradle task to test the mod
 
-### Project Structure
-
-```
-Estonic-Autofishing/
-├── src/
-│   └── main/
-│       ├── java/
-│       │   └── com/estonic/autofishing/
-│       │       ├── AutofishingMod.java      # Main mod initializer
-│       │       ├── AutofishCommand.java     # Command registration
-│       │       ├── AutofishState.java       # Toggle state management
-│       │       ├── FishingDetector.java     # Fishing cue detection
-│       │       ├── FishingAutomation.java   # Automation logic
-│       │       └── mixin/
-│       │           ├── InGameHudMixin.java  # HUD rendering hook
-│       │           └── ChatHudMixin.java    # Chat message hook
-│       └── resources/
-│           ├── fabric.mod.json              # Mod metadata
-│           ├── estonic-autofishing.mixins.json # Mixin configuration
-│           └── assets/
-│               └── estonic-autofishing/
-│                   └── icon.png             # Mod icon
-├── build.gradle                             # Build configuration
-├── gradle.properties                        # Project properties
-├── settings.gradle                          # Gradle settings
-└── LICENSE                                  # MIT License
-```
-
 ## How It Works
 
-1. **Toggle**: Use `/autofish toggle` command to enable/disable (starts OFF by default)
+1. **Toggle**: Press F8 to enable/disable (starts OFF by default, shows HUD status message)
 
-2. **Detection**: When enabled, the mod uses Mixin to hook into Minecraft's rendering system, monitoring for:
-   - The text "Reel it in!" appearing on screen
-   - Green exclamation mark particles (visual fishing cue)
+2. **Detection**: When enabled, the mod listens for overlay/action bar messages containing:
+   - The text "Rell it in!" (case-insensitive)
+   - Uses Fabric API's ClientReceiveMessageEvents
 
 3. **Automation**: When a cue is detected and autofishing is enabled:
    - Right-clicks to pull in the fishing rod
@@ -136,26 +112,11 @@ Estonic-Autofishing/
    - Slightly adjusts crosshair position (-1 to +1 degrees)
    - Right-clicks again to recast the rod
 
-3. **Anti-Cheat Evasion**: 
+4. **Anti-Cheat Evasion**: 
    - Random delays between actions (50-200ms)
    - Randomized crosshair movement (±1.5 degrees)
    - Cooldown period to prevent spam
-   - Only runs when toggled ON with `/autofish toggle`
-
-## Commands
-
-- `/autofish toggle` - Toggles autofishing ON/OFF (default: OFF)
-  - Shows feedback message with current state
-  - State persists during the game session
-
-## Configuration
-
-The mod starts disabled by default for safety. Enable it using `/autofish toggle` when you're ready to fish.
-
-Future versions may include:
-- Persistent configuration file
-- Adjustable delay ranges
-- Customizable detection sensitivity
+   - Only runs when toggled ON with F8
 
 ## Compatibility
 

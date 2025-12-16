@@ -25,42 +25,63 @@ public class FishingAutomation {
             return; // Prevent too-frequent actions
         }
 
-        // Check if player is holding a fishing rod
-        ItemStack mainHandStack = client.player.getMainHandStack();
+        // Find fishing rod in inventory
+        int fishingRodSlot = findFishingRodSlot(client);
         ItemStack offHandStack = client.player.getOffHandStack();
-        
-        boolean hasRodInMainHand = mainHandStack.getItem() instanceof FishingRodItem;
         boolean hasRodInOffHand = offHandStack.getItem() instanceof FishingRodItem;
 
-        if (!hasRodInMainHand && !hasRodInOffHand) {
-            return; // No fishing rod equipped
+        if (fishingRodSlot == -1 && !hasRodInOffHand) {
+            return; // No fishing rod available
         }
+
+        // Remember current slot to restore later
+        int originalSlot = client.player.getInventory().selectedSlot;
 
         // Perform the fishing actions
         try {
-            // 1. Pull in the fishing rod (right-click action)
-            client.interactionManager.interactItem(
-                client.player, 
-                hasRodInMainHand ? net.minecraft.util.Hand.MAIN_HAND : net.minecraft.util.Hand.OFF_HAND
-            );
-
-            // 2. Add a small delay
-            Thread.sleep(50 + random.nextInt(50)); // 50-100ms delay
-
-            // 3. Check for leather boots and use them if found
-            if (hasLeatherBootsInHotbar(client)) {
-                useLeatherBoots(client);
+            // Ensure fishing rod is selected (if not in off-hand)
+            if (!hasRodInOffHand && fishingRodSlot != -1) {
+                client.player.getInventory().selectedSlot = fishingRodSlot;
+                Thread.sleep(50); // Small delay after switching
             }
 
-            // 4. Randomize crosshair slightly
+            // 1. Nudge crosshair before reeling in
+            randomizeCrosshair(client);
+            
+            // 2. Pull in the fishing rod (right-click action)
+            client.interactionManager.interactItem(
+                client.player, 
+                hasRodInOffHand ? net.minecraft.util.Hand.OFF_HAND : net.minecraft.util.Hand.MAIN_HAND
+            );
+
+            // 3. Add a small delay
+            Thread.sleep(50 + random.nextInt(50)); // 50-100ms delay
+
+            // 4. Check for leather boots and use them if found
+            if (hasLeatherBootsInHotbar(client)) {
+                useLeatherBoots(client, fishingRodSlot);
+            }
+
+            // 5. Ensure fishing rod is selected again before recasting
+            if (!hasRodInOffHand && fishingRodSlot != -1) {
+                client.player.getInventory().selectedSlot = fishingRodSlot;
+                Thread.sleep(50); // Small delay after switching
+            }
+
+            // 6. Nudge crosshair before recasting
             randomizeCrosshair(client);
 
-            // 5. Cast the rod again (right-click action)
+            // 7. Cast the rod again (right-click action)
             Thread.sleep(100 + random.nextInt(100)); // 100-200ms delay
             client.interactionManager.interactItem(
                 client.player, 
-                hasRodInMainHand ? net.minecraft.util.Hand.MAIN_HAND : net.minecraft.util.Hand.OFF_HAND
+                hasRodInOffHand ? net.minecraft.util.Hand.OFF_HAND : net.minecraft.util.Hand.MAIN_HAND
             );
+
+            // Restore original slot if it was different
+            if (originalSlot != client.player.getInventory().selectedSlot) {
+                client.player.getInventory().selectedSlot = originalSlot;
+            }
 
             lastActionTime = currentTime;
             AutofishingMod.LOGGER.info("Fishing action performed");
@@ -68,6 +89,21 @@ public class FishingAutomation {
             Thread.currentThread().interrupt();
             AutofishingMod.LOGGER.error("Fishing action interrupted", e);
         }
+    }
+
+    /**
+     * Finds the slot containing a fishing rod in the hotbar
+     */
+    private static int findFishingRodSlot(MinecraftClient client) {
+        if (client.player == null) return -1;
+        
+        for (int i = 0; i < 9; i++) {
+            ItemStack stack = client.player.getInventory().getStack(i);
+            if (stack.getItem() instanceof FishingRodItem) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -95,7 +131,7 @@ public class FishingAutomation {
     /**
      * Uses leather boots and returns to fishing rod
      */
-    private static void useLeatherBoots(MinecraftClient client) throws InterruptedException {
+    private static void useLeatherBoots(MinecraftClient client, int fishingRodSlot) throws InterruptedException {
         if (client.player == null || client.interactionManager == null) return;
 
         // Save current slot
@@ -124,8 +160,12 @@ public class FishingAutomation {
         // Add delay before switching back
         Thread.sleep(100 + random.nextInt(100)); // 100-200ms delay
 
-        // Switch back to previous hotbar slot
-        client.player.getInventory().selectedSlot = previousSlot;
+        // Switch back to fishing rod slot (or previous slot if rod is in off-hand)
+        if (fishingRodSlot != -1) {
+            client.player.getInventory().selectedSlot = fishingRodSlot;
+        } else {
+            client.player.getInventory().selectedSlot = previousSlot;
+        }
 
         // Small delay after switching back
         Thread.sleep(50 + random.nextInt(50)); // 50-100ms delay
